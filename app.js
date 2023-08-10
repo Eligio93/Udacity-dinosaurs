@@ -103,6 +103,7 @@ let generateTiles = function () {
             bgimg.src = imageUrl;
             tile.appendChild(bgimg);
         }
+        // Add tiles to DOM
         grid.appendChild(tile);
 
     })
@@ -110,7 +111,7 @@ let generateTiles = function () {
 
 
 
-// Add tiles to DOM
+
 
 
 
@@ -119,7 +120,7 @@ let compareBtn = document.getElementById("btn");
 compareBtn.addEventListener("click", function () {
     let form = document.getElementById("dino-compare");
     // Use IIFE to get human data from form
-   if(form.checkValidity()){
+    if (form.checkValidity()) {
         human = (function () {
             let name = document.getElementById("name").value;
             let feet = document.getElementById("feet").value;
@@ -138,16 +139,16 @@ compareBtn.addEventListener("click", function () {
             }
         })();
 
-        //Center in array Human tile
+        //Center Human Object in Array
         dinos.splice(4, 0, human);
 
         //Make the form disappears
-
         form.style.display = "none";
+
         //generateTiles
         generateTiles();
-   
-   }else{
-    alert("Please enter correct information")
-   }
+
+    } else {
+        alert("Please enter correct information")
+    }
 })
