@@ -2,8 +2,8 @@
 // Create Dino Constructor
 function Dino(species, weight, height, diet, where, when, fact) {
 
-    this.species = species,
-        this.weight = weight
+    this.species = species
+    this.weight = weight
     this.height = height
     this.diet = diet
     this.where = where
@@ -11,7 +11,6 @@ function Dino(species, weight, height, diet, where, when, fact) {
     this.fact = fact
 
 }
-
 
 // Create Dino Objects
 let dinos = [
@@ -24,12 +23,9 @@ let dinos = [
     new Dino("Pteranodon", 44, 20, "carnivor", "North America", "Late Cretaceous", "Actually a flying reptile, the Pteranodon is not a dinosaur."),
     new Dino("Pigeon", 0.5, 9, "herbavor", "World Wide", "Holocene", "All birds are living dinosaurs.")
 ];
-console.log(dinos);
+
 // Create Human Object
-
-// Use IIFE to get human data from form
-
-
+let human = {};
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches. 
@@ -42,7 +38,6 @@ Dino.prototype.compareHeight = function () {
 
 }
 
-
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
 Dino.prototype.compareDiet = function () {
@@ -52,8 +47,6 @@ Dino.prototype.compareDiet = function () {
         this.fact = this.species + " and " + human.name + " eats different things";
     }
 }
-
-
 
 // Create Dino Compare Method 3
 // NOTE: Weight in JSON file is in lbs, height in inches.
@@ -73,57 +66,83 @@ let generateTiles = function () {
         //Generate Random fact about dinos
         let compareArray = [object.compareDiet, object.compareHeight, object.compareWeight, object.fact]
         let randomChoice = compareArray[Math.floor(Math.random() * compareArray.length)];
-        if (randomChoice !== object.fact && object.species !== "Pigeon") {
+        if (randomChoice !== object.fact && object.species !== "Pigeon" && object.species !== "Human") {
             randomChoice.call(object);
         }
+
         //Generate tiles
         let grid = document.getElementById("grid");
         let tile = document.createElement("div");
         tile.id = object.species;
         tile.className = "grid-item";
-        //Set tiles name
-        let name = document.createElement("h3");
-        name.textContent = object.species;
-        tile.appendChild(name);
-        //Set Image to tiles
-        let bgimg = document.createElement("img");
-        let imgtitle = (object.species).toLowerCase();
-        const imageUrl = `images/${imgtitle}.png`;
-        bgimg.src = imageUrl;
-        tile.appendChild(bgimg);
+        if (object.species !== "Human") {
+            //Set tiles name
+            let name = document.createElement("h3");
+            name.textContent = object.species;
+            tile.appendChild(name);
+            //Set Image to tiles
+            let bgimg = document.createElement("img");
+            let imgtitle = (object.species).toLowerCase();
+            const imageUrl = `images/${imgtitle}.png`;
+            bgimg.src = imageUrl;
+            tile.appendChild(bgimg);
 
-        //Set tiles fact
-        let dinofact = document.createElement("p");
-        dinofact.textContent = object.fact;
-        tile.appendChild(dinofact);
+            //Set tiles fact
+            let dinofact = document.createElement("p");
+            dinofact.textContent = object.fact;
+            tile.appendChild(dinofact);
+
+        } else {
+            //Set human tile
+            let name = document.createElement("h3");
+            name.textContent = human.name;
+            tile.appendChild(name);
+            let bgimg = document.createElement("img");
+            let imgtitle = (object.species).toLowerCase();
+            const imageUrl = `images/${imgtitle}.png`;
+            bgimg.src = imageUrl;
+            tile.appendChild(bgimg);
+        }
         grid.appendChild(tile);
+
     })
 }
 
 
 
-        // Add tiles to DOM
+// Add tiles to DOM
 
-    // Remove form from screen
 
 
 // On button click, prepare and display infographic
-let compareBtn=document.getElementById("btn");
-compareBtn.addEventListener("click", function(){
-    let human = (function(){
-        let name=document.getElementById("name").value;
-        let feet= document.getElementById("feet").value;
-        let inches= document.getElementById("inches").value;
-        let height= parseFloat(feet.toString()+ "." + inches.toString());
-        let weight= document.getElementById("weight").value;
-        let diet= document.getElementById("diet").value;
+let compareBtn = document.getElementById("btn");
+compareBtn.addEventListener("click", function () {
+    // Use IIFE to get human data from form
+    human = (function () {
+        let name = document.getElementById("name").value;
+        let feet = document.getElementById("feet").value;
+        let inches = document.getElementById("inches").value;
+        let height = parseFloat(feet.toString() + "." + inches.toString());
+        let weight = document.getElementById("weight").value;
+        let diet = document.getElementById("diet").value;
+        let species = "Human";
 
-        return{
+        return {
             name,
             height,
             weight,
-            diet
+            diet,
+            species
         }
     })();
-    
+
+    //Center in array Human tile
+    dinos.splice(4, 0, human);
+
+    //Make the form disappears
+    let form = document.getElementById("dino-compare");
+    form.style.display = "none";
+    //generateTiles
+    generateTiles();
+
 })
