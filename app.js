@@ -116,33 +116,38 @@ let generateTiles = function () {
 
 // On button click, prepare and display infographic
 let compareBtn = document.getElementById("btn");
-compareBtn.addEventListener("submit", function () {
-    // Use IIFE to get human data from form
-    human = (function () {
-        let name = document.getElementById("name").value;
-        let feet = document.getElementById("feet").value;
-        let inches = document.getElementById("inches").value;
-        let height = parseFloat(feet.toString() + "." + inches.toString());
-        let weight = document.getElementById("weight").value;
-        let diet = document.getElementById("diet").value;
-        let species = "Human";
-
-        return {
-            name,
-            height,
-            weight,
-            diet,
-            species
-        }
-    })();
-
-    //Center in array Human tile
-    dinos.splice(4, 0, human);
-
-    //Make the form disappears
+compareBtn.addEventListener("click", function () {
     let form = document.getElementById("dino-compare");
-    form.style.display = "none";
-    //generateTiles
-    generateTiles();
+    // Use IIFE to get human data from form
+   if(form.checkValidity()){
+        human = (function () {
+            let name = document.getElementById("name").value;
+            let feet = document.getElementById("feet").value;
+            let inches = document.getElementById("inches").value;
+            let height = parseFloat(feet.toString() + "." + inches.toString());
+            let weight = document.getElementById("weight").value;
+            let diet = document.getElementById("diet").value;
+            let species = "Human";
 
+            return {
+                name,
+                height,
+                weight,
+                diet,
+                species
+            }
+        })();
+
+        //Center in array Human tile
+        dinos.splice(4, 0, human);
+
+        //Make the form disappears
+
+        form.style.display = "none";
+        //generateTiles
+        generateTiles();
+   
+   }else{
+    alert("Please enter correct information")
+   }
 })
