@@ -116,7 +116,7 @@ let generateTiles = function () {
 
 // On button click, prepare and display infographic
 let compareBtn = document.getElementById("btn");
-compareBtn.addEventListener("click", function () {
+compareBtn.addEventListener("submit", function () {
     // Use IIFE to get human data from form
     human = (function () {
         let name = document.getElementById("name").value;
